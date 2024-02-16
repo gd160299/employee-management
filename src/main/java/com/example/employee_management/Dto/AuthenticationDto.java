@@ -4,6 +4,7 @@ import com.example.employee_management.Common.DbColumnMapper;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -23,4 +24,7 @@ public class AuthenticationDto {
 
     @DbColumnMapper("Last_Login")
     private Date lastLogin;
+
+    @DbColumnMapper("created_time")
+    private Date createdTime;
 }

@@ -30,7 +30,7 @@ public class AuthController {
 
         if (isAuthenticated) {
             // Nếu xác thực thành công, gửi thông báo OTP đã được gửi
-            return ResponseEntity.ok("OTP sent to the registered phone number.");
+            return ResponseEntity.ok("OTP sent to the email.");
         } else {
             // Nếu xác thực thất bại, trả về lỗi
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
@@ -51,4 +51,11 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid OTP.");
         }
     }
+
+    @PostMapping("/regenerate-otp")
+    public ResponseEntity<?> regenerateOtp(@RequestBody OtpVerifyRequest otp) {
+        authService.regenerateOtp(otp.getUsername());
+        return ResponseEntity.ok("A new OTP has been sent.");
+    }
+
 }

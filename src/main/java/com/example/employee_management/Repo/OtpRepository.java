@@ -34,6 +34,7 @@ public class OtpRepository {
         parameters.put("p_employee_id", dto.getEmployeeId());
         parameters.put("p_user_name", dto.getUserName());
         parameters.put("p_otp", dto.getOtp());
+        parameters.put("p_created_time", dto.getCreatedTime());
         storedProcedureUtil.callStoredProcedure("PKG_EMPLOYEE.SAVE_AUTH_OTP", parameters);
     }
 }

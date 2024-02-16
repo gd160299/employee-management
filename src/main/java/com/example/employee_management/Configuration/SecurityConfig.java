@@ -11,6 +11,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class SecurityConfig {
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -28,6 +29,7 @@ public class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Không sử dụng session
                 .and()
+                .addFilterBefore(new CustomAccessFilter(), UsernamePasswordAuthenticationFilter.class) // Chạy CustomAccessFilter trước các bộ lọc khác
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated()
