@@ -5,7 +5,6 @@ import com.example.employee_management.Model.LoginRequest;
 import com.example.employee_management.Model.OtpVerifyRequest;
 import com.example.employee_management.Service.AuthService;
 import com.example.employee_management.Service.JwtService;
-import com.example.employee_management.Service.OTPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

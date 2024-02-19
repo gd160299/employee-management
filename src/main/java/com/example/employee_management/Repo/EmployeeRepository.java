@@ -21,7 +21,35 @@ public class EmployeeRepository {
     public Optional<EmployeeDto> findByUserName(String userName) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("p_user_name", userName);
-        EmployeeDto result = storedProcedureUtil.callStoredProcedureForSingleResult("PKG_EMPLOYEE.FIND_EMPLOYEE_BY_USER_NAME", parameters, EmployeeDto.class);
+        EmployeeDto result = this.storedProcedureUtil.callStoredProcedureForSingleResult("PKG_EMPLOYEE.FIND_EMPLOYEE_BY_USER_NAME", parameters, EmployeeDto.class);
         return Optional.ofNullable(result);
     }
+
+    public void create(EmployeeDto objInput) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("p_employee_name", objInput.getEmployeeName());
+        parameters.put("p_department_id", objInput.getDepartmentId());
+        parameters.put("p_salary", objInput.getSalary());
+        parameters.put("p_user_name", objInput.getUserName());
+        parameters.put("p_phone_number", objInput.getPhoneNumber());
+        parameters.put("p_position", objInput.getPosition());
+        parameters.put("p_email", objInput.getEmail());
+        parameters.put("p_pass_word", objInput.getPassWord());
+        this.storedProcedureUtil.callStoredProcedure("PKG_EMPLOYEE.save_employee", parameters);
+    }
+
+    public void update(EmployeeDto objInput) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("p_employee_id", objInput.getEmployeeId());
+        parameters.put("p_employee_name", objInput.getEmployeeName());
+        parameters.put("p_department_id", objInput.getDepartmentId());
+        parameters.put("p_salary", objInput.getSalary());
+        parameters.put("p_user_name", objInput.getUserName());
+        parameters.put("p_phone_number", objInput.getPhoneNumber());
+        parameters.put("p_position", objInput.getPosition());
+        parameters.put("p_email", objInput.getEmail());
+        parameters.put("p_pass_word", objInput.getPassWord());
+        this.storedProcedureUtil.callStoredProcedure("PKG_EMPLOYEE.update_employee", parameters);
+    }
+
 }
