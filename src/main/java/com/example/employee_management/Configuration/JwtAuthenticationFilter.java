@@ -31,7 +31,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
-            // Trong thực tế, bạn cần cẩn thận với thông tin bạn văng ra để tránh tiết lộ thông tin nhạy cảm
             logger.error("Could not set user authentication in security context", ex);
         }
 
