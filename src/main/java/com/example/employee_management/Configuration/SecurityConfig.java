@@ -2,6 +2,7 @@ package com.example.employee_management.Configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,6 +33,10 @@ public class SecurityConfig {
                 .addFilterBefore(new CustomAccessFilter(), UsernamePasswordAuthenticationFilter.class) // Chạy CustomAccessFilter trước các bộ lọc khác
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/employee/find-by-user-name").authenticated()
+                .antMatchers(HttpMethod.POST, "/employee/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/employee/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/employee/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

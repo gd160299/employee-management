@@ -4,15 +4,20 @@ import com.example.employee_management.Dto.AuthenticationDto;
 import com.example.employee_management.Dto.EmployeeDto;
 import com.example.employee_management.Repo.EmployeeRepository;
 import com.example.employee_management.Repo.OtpRepository;
+import com.example.employee_management.Util.BusinessException;
+import com.example.employee_management.Util.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.management.relation.Role;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -37,6 +42,14 @@ public class AuthService {
                     this.saveOtp(username, otp, employee.getEmployeeId(), employee.getEmail());
                     return true;
                 }).orElse(false);
+    }
+
+    public List<String> getUserRoles(String userName) {
+        EmployeeDto employee = this.employeeRepository.findByUserName(userName).orElseThrow(() -> new BusinessException(
+                ErrorCode.USER_NOT_FOUND, userName));
+        Long employeeId = employee.getEmployeeId();
+        List<Role> roles = this.employeeRepository.getUserRoles(employeeId);
+        return roles.stream().map(Role::getRoleName).collect(Collectors.toList());
     }
 
     public boolean verifyOtp(String username, String otp) {

@@ -3,7 +3,10 @@ package com.example.employee_management.RestController;
 import com.example.employee_management.Dto.EmployeeDto;
 import com.example.employee_management.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,7 +16,15 @@ public class EmployeeRestController {
     private EmployeeService employeeService;
 
     @GetMapping("/find-by-user-name")
-    public ResponseEntity<EmployeeDto> findByUserName(@RequestParam String userName) {
+    public ResponseEntity<?> findByUserName(@RequestParam String userName) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = authentication.getName();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN"));
+        // Nếu người dùng không phải admin và yêu cầu thông tin của người dùng khác
+        if (!isAdmin && !currentUserName.equals(userName)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
+        }
         return ResponseEntity.ok(this.employeeService.findByUserName(userName));
     }
 

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -24,7 +26,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        boolean isAuthenticated = authService.authenticateEmployee(
+        boolean isAuthenticated = this.authService.authenticateEmployee(
                 loginRequest.getUsername(), loginRequest.getPassword());
 
         if (isAuthenticated) {
@@ -38,12 +40,14 @@ public class AuthController {
 
     @PostMapping("/verify-otp")
     public ResponseEntity<?> verifyOtp(@RequestBody OtpVerifyRequest otpVerifyRequest) {
-        boolean isOtpValid = authService.verifyOtp(
+        boolean isOtpValid = this.authService.verifyOtp(
                 otpVerifyRequest.getUsername(), otpVerifyRequest.getOtp());
 
         if (isOtpValid) {
+            // Lấy thông tin vai trò của người dùng
+            List<String> roles = this.authService.getUserRoles(otpVerifyRequest.getUsername());
             // OTP đúng, sinh và trả về JWT token
-            String token = jwtService.generateToken(otpVerifyRequest.getUsername());
+            String token = jwtService.generateToken(otpVerifyRequest.getUsername(), roles);
             return ResponseEntity.ok(new JwtResponse(token));
         } else {
             // OTP sai, trả về lỗi
@@ -53,7 +57,7 @@ public class AuthController {
 
     @PostMapping("/regenerate-otp")
     public ResponseEntity<?> regenerateOtp(@RequestBody OtpVerifyRequest otp) {
-        authService.regenerateOtp(otp.getUsername());
+        this.authService.regenerateOtp(otp.getUsername());
         return ResponseEntity.ok("A new OTP has been sent.");
     }
 
