@@ -39,7 +39,10 @@ public class JwtService {
     public List<GrantedAuthority> getRolesFromJWT(String token) {
         Claims claims = Jwts.parser().setSigningKey(this.secretKey).parseClaimsJws(token).getBody();
         List<String> roles = claims.get("roles", List.class);
-        return roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        return roles.stream()
+                .map(String::toUpperCase) // Chuyển đổi tất cả các vai trò sang chữ hoa
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     public boolean validateToken(String authToken) {

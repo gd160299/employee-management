@@ -1,11 +1,9 @@
 package com.example.employee_management.Dto;
 
 import com.example.employee_management.Common.DbColumnMapper;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class RolesDto {
     @DbColumnMapper("ROLE_ID")
     private Long roleId;

@@ -2,6 +2,7 @@ package com.example.employee_management.Service;
 
 import com.example.employee_management.Dto.AuthenticationDto;
 import com.example.employee_management.Dto.EmployeeDto;
+import com.example.employee_management.Dto.EmployeeRoleDto;
 import com.example.employee_management.Repo.EmployeeRepository;
 import com.example.employee_management.Repo.OtpRepository;
 import com.example.employee_management.Util.BusinessException;
@@ -48,8 +49,8 @@ public class AuthService {
         EmployeeDto employee = this.employeeRepository.findByUserName(userName).orElseThrow(() -> new BusinessException(
                 ErrorCode.USER_NOT_FOUND, userName));
         Long employeeId = employee.getEmployeeId();
-        List<Role> roles = this.employeeRepository.getUserRoles(employeeId);
-        return roles.stream().map(Role::getRoleName).collect(Collectors.toList());
+        List<EmployeeRoleDto> roles = this.employeeRepository.getUserRoles(employeeId);
+        return roles.stream().map(EmployeeRoleDto::getRoleName).collect(Collectors.toList());
     }
 
     public boolean verifyOtp(String username, String otp) {
@@ -57,7 +58,7 @@ public class AuthService {
         if (authOpt.isPresent()) {
             AuthenticationDto auth = authOpt.get();
             // Kiểm tra xem OTP có quá 1 phút không
-            if (new Date().getTime() - auth.getCreatedTime().getTime() > 60000) {
+            if (new Date().getTime() - auth.getCreatedTime().getTime() > 600000) {
                 // OTP quá hạn
                 otpRepository.delete(auth.getAuthId());
                 return false; // OTP không hợp lệ do quá hạn

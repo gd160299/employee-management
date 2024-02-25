@@ -23,6 +23,8 @@ public class SecurityConfig {
         return new JwtAuthenticationFilter();
     }
 
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -31,9 +33,13 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Không sử dụng session
                 .and()
                 .addFilterBefore(new CustomAccessFilter(), UsernamePasswordAuthenticationFilter.class) // Chạy CustomAccessFilter trước các bộ lọc khác
+                // Yêu cầu HTTPS cho tất cả các request
+//                .requiresChannel()
+//                .anyRequest().requiresSecure()
+//                .and()
                 .authorizeRequests()
+                .antMatchers("/swagger-ui/**", "/v2/api-docs", "/swagger-resources/**", "/webjars/**").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/employee/find-by-user-name").authenticated()
                 .antMatchers(HttpMethod.POST, "/employee/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/employee/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/employee/**").hasAuthority("ADMIN")

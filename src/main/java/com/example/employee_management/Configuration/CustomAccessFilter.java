@@ -39,7 +39,7 @@ public class CustomAccessFilter extends OncePerRequestFilter {
         String currentMacAddress  = macBuilder.toString();
         LocalTime vnTime = LocalTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
 
-        boolean isAllowedTime = vnTime.isAfter(LocalTime.of(8, 0)) && vnTime.isBefore(LocalTime.of(17, 0));
+        boolean isAllowedTime = vnTime.isAfter(LocalTime.of(8, 0)) && vnTime.isBefore(LocalTime.of(23, 0));
         boolean isAllowedIP = this.allowedNetworkConfig.getIps().stream().anyMatch(ip::startsWith);
         boolean isAllowedMAC = this.allowedNetworkConfig.getMac().stream().anyMatch(macAllowed -> macAllowed.equalsIgnoreCase(currentMacAddress));
 
