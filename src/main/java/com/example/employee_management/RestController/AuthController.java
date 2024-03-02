@@ -38,7 +38,7 @@ public class AuthController {
 
     // API này dùng để lấy thông tin vai trò của người dùng, truyền vào username
     @GetMapping("get-roles")
-    public ResponseEntity<?> getRoles(@RequestBody String username) {
+    public ResponseEntity<?> getRoles(@RequestParam String username) {
         List<String> roles = this.authService.getUserRoles(username);
         return ResponseEntity.ok(roles);
     }

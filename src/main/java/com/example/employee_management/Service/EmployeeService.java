@@ -7,6 +7,9 @@ import com.example.employee_management.Util.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class EmployeeService {
@@ -18,6 +21,11 @@ public class EmployeeService {
 
     public EmployeeDto findByUserName(String userName) {
         return this.employeeRepository.findByUserName(userName).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, userName));
+    }
+
+    @Transactional
+    public List<EmployeeDto> search(Long departmentId, String employeeName, String userName, int pageBegin, int pageEnd) {
+        return this.employeeRepository.search(departmentId, employeeName, userName, pageBegin, pageEnd);
     }
 
     public void create(EmployeeDto objInput) {

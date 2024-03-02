@@ -34,4 +34,7 @@ public class EmployeeDto {
 
     @DbColumnMapper("PASS_WORD")
     private String passWord;
+
+    @DbColumnMapper("department_name")
+    private String departmentName;
 }

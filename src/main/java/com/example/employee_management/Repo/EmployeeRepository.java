@@ -11,10 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.management.relation.Role;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class EmployeeRepository {
@@ -39,6 +36,16 @@ public class EmployeeRepository {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("p_employee_id", employeeId);
         return this.storedProcedureUtil.callStoredProcedureWithRefCursor("PKG_EMPLOYEE.GET_USER_ROLES_BY_EMPLOYEE_ID", parameters, EmployeeRoleDto.class);
+    }
+
+    public List<EmployeeDto> search(Long departmentId, String employeeName, String userName, int pageBegin, int pageEnd) {
+            Map<String, Object> parameters = new LinkedHashMap<>();
+            parameters.put("p_department_id", departmentId);
+            parameters.put("p_employee_name", employeeName);
+            parameters.put("p_user_name", userName);
+            parameters.put("p_page_begin", pageBegin);
+            parameters.put("p_page_end", pageEnd);
+            return this.storedProcedureUtil.callStoredProcedureWithRefCursor("PKG_EMPLOYEE.employee_search", parameters, EmployeeDto.class);
     }
 
     public void create(EmployeeDto objInput) {

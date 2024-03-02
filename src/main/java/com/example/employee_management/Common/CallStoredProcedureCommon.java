@@ -113,6 +113,9 @@ public class CallStoredProcedureCommon {
 
                 for (int i = 1; i <= columnCount; i++) {
                     String columnName = metaData.getColumnName(i);
+                    if ("RN".equalsIgnoreCase(columnName)) {
+                        continue; // Bỏ qua cột này
+                    }
                     Object value = rs.getObject(i);
                     try {
                         setFieldValue(obj, columnName, value);

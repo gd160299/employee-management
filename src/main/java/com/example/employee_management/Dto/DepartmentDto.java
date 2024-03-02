@@ -11,6 +11,4 @@ public class DepartmentDto {
     @DbColumnMapper("Department_Name")
     private String departmentName;
 
-    @DbColumnMapper("Manager_ID")
-    private Long managerId;
 }

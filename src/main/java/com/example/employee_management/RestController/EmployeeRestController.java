@@ -28,6 +28,11 @@ public class EmployeeRestController {
         return ResponseEntity.ok(this.employeeService.findByUserName(userName));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam(required = false) Long departmentId, @RequestParam(required = false) String employeeName, @RequestParam(required = false) String userName, @RequestParam int pageBegin, @RequestParam int pageEnd) {
+        return ResponseEntity.ok(this.employeeService.search(departmentId, employeeName, userName, pageBegin, pageEnd));
+    }
+
     @PostMapping("/create")
     public void create(@RequestBody EmployeeDto objInput) {
         this.employeeService.create(objInput);

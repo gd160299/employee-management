@@ -1,5 +1,12 @@
 server:
   port: 8081
+#  ssl:
+#    enabled: true
+#    key-store: classpath:springboot.p12
+#    key-store-password: password
+#    keyStoreType: pkcs12
+#    keyAlias: springboot
+#    key-password: password
 
 spring:
   mvc:
