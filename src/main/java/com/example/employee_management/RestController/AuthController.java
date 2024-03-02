@@ -8,11 +8,7 @@ import com.example.employee_management.Service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +21,7 @@ public class AuthController {
     @Autowired
     private JwtService jwtService;
 
+    // API này dùng để xác thực người dùng, truyền vào username và password
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         boolean isAuthenticated = this.authService.authenticateEmployee(
@@ -39,12 +36,14 @@ public class AuthController {
         }
     }
 
+    // API này dùng để lấy thông tin vai trò của người dùng, truyền vào username
     @GetMapping("get-roles")
     public ResponseEntity<?> getRoles(@RequestBody String username) {
         List<String> roles = this.authService.getUserRoles(username);
         return ResponseEntity.ok(roles);
     }
 
+    // API này dùng để xác thực OTP, truyền vào username và mã OTP, response trả về JWT token bao gồm thông tin vai trò và username
     @PostMapping("/verify-otp")
     public ResponseEntity<?> verifyOtp(@RequestBody OtpVerifyRequest otpVerifyRequest) {
         boolean isOtpValid = this.authService.verifyOtp(
@@ -62,6 +61,7 @@ public class AuthController {
         }
     }
 
+    // API này dùng để gửi lại mã OTP, truyền vào username
     @PostMapping("/regenerate-otp")
     public ResponseEntity<?> regenerateOtp(@RequestBody OtpVerifyRequest otp) {
         this.authService.regenerateOtp(otp.getUsername());
