@@ -1,6 +1,7 @@
 package com.example.employee_management.RestController;
 
 import com.example.employee_management.Dto.EmployeeDto;
+import com.example.employee_management.Model.LoginRequest;
 import com.example.employee_management.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,16 @@ public class EmployeeRestController {
     @PutMapping("/update")
     public void update(@RequestBody EmployeeDto objInput) {
         this.employeeService.update(objInput);
+    }
+
+    @PutMapping("/change-password")
+    public void changePassword(@RequestBody LoginRequest objInput) {
+        this.employeeService.changePassword(objInput);
+    }
+
+    @PostMapping("/reset-password")
+    public void resetPassword(@RequestBody LoginRequest objInput) {
+        this.employeeService.resetPassword(objInput);
     }
 
     @DeleteMapping("/delete")

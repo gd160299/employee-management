@@ -4,6 +4,7 @@ import com.example.employee_management.Common.CallStoredProcedureCommon;
 import com.example.employee_management.Dto.DepartmentDto;
 import com.example.employee_management.Dto.EmployeeDto;
 import com.example.employee_management.Dto.EmployeeRoleDto;
+import com.example.employee_management.Model.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -84,6 +85,13 @@ public class EmployeeRepository {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("p_user_name", userName);
 		this.storedProcedureUtil.callStoredProcedure("PKG_EMPLOYEE.delete_employee", parameters);
+	}
+
+	public void changePassword(LoginRequest objInput) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("p_user_name", objInput.getUsername());
+		parameters.put("p_pass_word", objInput.getPassword());
+		this.storedProcedureUtil.callStoredProcedure("PKG_EMPLOYEE.change_password", parameters);
 	}
 
 	public List<DepartmentDto> getLstDepartment() {

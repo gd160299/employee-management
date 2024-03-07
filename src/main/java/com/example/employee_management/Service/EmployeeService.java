@@ -2,10 +2,12 @@ package com.example.employee_management.Service;
 
 import com.example.employee_management.Dto.DepartmentDto;
 import com.example.employee_management.Dto.EmployeeDto;
+import com.example.employee_management.Model.LoginRequest;
 import com.example.employee_management.Repo.EmployeeRepository;
 import com.example.employee_management.Util.BusinessException;
 import com.example.employee_management.Util.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,9 @@ public class EmployeeService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Value("${defaults.password}")
+    private String defaultPassword;
 
     public EmployeeDto findByUserName(String userName) {
         return this.employeeRepository.findByUserName(userName).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, userName));
@@ -34,7 +39,7 @@ public class EmployeeService {
                 .ifPresent(user -> {
                     throw new BusinessException(ErrorCode.USER_EXIST, objInput.getUserName());
                 });
-        objInput.setPassWord(this.encodePassWord(objInput.getPassWord()));
+        objInput.setPassWord(this.encodePassWord(this.defaultPassword));
         this.employeeRepository.create(objInput);
     }
 
@@ -42,6 +47,20 @@ public class EmployeeService {
         this.employeeRepository.findById(objInput.getEmployeeId()).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXIST));
         objInput.setPassWord(this.encodePassWord(objInput.getPassWord()));
         this.employeeRepository.update(objInput);
+    }
+
+    public void changePassword(LoginRequest objInput) {
+        EmployeeDto employee = this.findByUserName(objInput.getUsername());
+        if (!passwordEncoder.matches(objInput.getOldPassword(), employee.getPassWord())) {
+            throw new BusinessException(ErrorCode.OLD_PASSWORD_IS_NOT_CORRECT);
+        }
+        this.employeeRepository.changePassword(objInput);
+    }
+
+    public void resetPassword(LoginRequest objInput) {
+        EmployeeDto employee = this.findByUserName(objInput.getUsername());
+        employee.setPassWord(this.encodePassWord(this.defaultPassword));
+        this.employeeRepository.changePassword(objInput);
     }
 
     public void delete(String userName) {
