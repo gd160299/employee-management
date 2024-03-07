@@ -33,6 +33,11 @@ public class EmployeeRestController {
         return ResponseEntity.ok(this.employeeService.search(departmentId, employeeName, userName, pageBegin, pageEnd));
     }
 
+    @GetMapping("/get-lst-department")
+    public ResponseEntity<?> getLstDepartment() {
+        return ResponseEntity.ok(this.employeeService.getLstDepartment());
+    }
+
     @PostMapping("/create")
     public void create(@RequestBody EmployeeDto objInput) {
         this.employeeService.create(objInput);

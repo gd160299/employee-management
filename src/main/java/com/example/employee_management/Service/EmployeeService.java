@@ -1,5 +1,6 @@
 package com.example.employee_management.Service;
 
+import com.example.employee_management.Dto.DepartmentDto;
 import com.example.employee_management.Dto.EmployeeDto;
 import com.example.employee_management.Repo.EmployeeRepository;
 import com.example.employee_management.Util.BusinessException;
@@ -46,6 +47,10 @@ public class EmployeeService {
     public void delete(String userName) {
         this.findByUserName(userName);
         this.employeeRepository.delete(userName);
+    }
+
+    public List<DepartmentDto> getLstDepartment() {
+        return this.employeeRepository.getLstDepartment();
     }
 
     private String encodePassWord(String passWord) {
