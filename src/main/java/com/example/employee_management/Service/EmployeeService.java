@@ -58,8 +58,8 @@ public class EmployeeService {
     }
 
     public void resetPassword(LoginRequest objInput) {
-        EmployeeDto employee = this.findByUserName(objInput.getUsername());
-        employee.setPassWord(this.encodePassWord(this.defaultPassword));
+        this.findByUserName(objInput.getUsername());
+        objInput.setPassword(this.encodePassWord(this.defaultPassword));
         this.employeeRepository.changePassword(objInput);
     }
 
