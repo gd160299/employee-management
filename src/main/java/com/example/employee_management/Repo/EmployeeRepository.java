@@ -81,9 +81,9 @@ public class EmployeeRepository {
 		this.storedProcedureUtil.callStoredProcedure("PKG_EMPLOYEE.update_employee", parameters);
 	}
 
-	public void delete(String userName) {
+	public void delete(Long id) {
 		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("p_user_name", userName);
+		parameters.put("P_EMPLOYEE_ID", id);
 		this.storedProcedureUtil.callStoredProcedure("PKG_EMPLOYEE.delete_employee", parameters);
 	}
 

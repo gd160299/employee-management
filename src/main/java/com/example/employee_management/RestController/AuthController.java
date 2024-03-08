@@ -5,12 +5,15 @@ import com.example.employee_management.Model.LoginRequest;
 import com.example.employee_management.Model.OtpVerifyRequest;
 import com.example.employee_management.Service.AuthService;
 import com.example.employee_management.Service.JwtService;
+import com.example.employee_management.Util.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -20,6 +23,17 @@ public class AuthController {
 
     @Autowired
     private JwtService jwtService;
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<?> handleBusinessException(BusinessException ex) {
+        // Create a response body, could be a Map or a custom DTO
+        Map<String, String> response = new HashMap<>();
+        response.put("error", ex.getErrorCode().toString());
+        response.put("message", ex.getMessage());
+
+        // You can choose an appropriate HTTP status
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
     // API này dùng để xác thực người dùng, truyền vào username và password
     @PostMapping("/login")

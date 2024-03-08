@@ -44,7 +44,7 @@ public class EmployeeService {
     }
 
     public void update(EmployeeDto objInput) {
-        this.employeeRepository.findById(objInput.getEmployeeId()).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXIST));
+        this.employeeRepository.findByUserName(objInput.getUserName()).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXIST));
         objInput.setPassWord(this.encodePassWord(objInput.getPassWord()));
         this.employeeRepository.update(objInput);
     }
@@ -54,6 +54,7 @@ public class EmployeeService {
         if (!passwordEncoder.matches(objInput.getOldPassword(), employee.getPassWord())) {
             throw new BusinessException(ErrorCode.OLD_PASSWORD_IS_NOT_CORRECT);
         }
+        objInput.setPassword(this.encodePassWord(objInput.getPassword()));
         this.employeeRepository.changePassword(objInput);
     }
 
@@ -64,8 +65,8 @@ public class EmployeeService {
     }
 
     public void delete(String userName) {
-        this.findByUserName(userName);
-        this.employeeRepository.delete(userName);
+        EmployeeDto employee = this.findByUserName(userName);
+        this.employeeRepository.delete(employee.getEmployeeId());
     }
 
     public List<DepartmentDto> getLstDepartment() {

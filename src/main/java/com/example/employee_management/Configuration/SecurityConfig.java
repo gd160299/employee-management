@@ -32,13 +32,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5173", "http://localhost:5173/")); // Add your frontend origin here
+        configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5173", "http://localhost:5173/", "http://localhost:8686")); // Add your frontend origin here
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // You can customize the path
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
@@ -61,8 +61,8 @@ public class SecurityConfig {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/employee/search").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/employee/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/employee/change-password").hasAnyAuthority("ADMIN","USER")
                 .antMatchers(HttpMethod.PUT, "/employee/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/employee/change-password").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE, "/employee/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()

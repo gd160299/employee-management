@@ -3,6 +3,7 @@ package com.example.employee_management.RestController;
 import com.example.employee_management.Dto.EmployeeDto;
 import com.example.employee_management.Model.LoginRequest;
 import com.example.employee_management.Service.EmployeeService;
+import com.example.employee_management.Util.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +11,25 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/employee")
 public class EmployeeRestController {
     @Autowired
     private EmployeeService employeeService;
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<?> handleBusinessException(BusinessException ex) {
+        // Create a response body, could be a Map or a custom DTO
+        Map<String, String> response = new HashMap<>();
+        response.put("error", ex.getErrorCode().toString());
+        response.put("message", ex.getMessage());
+
+        // You can choose an appropriate HTTP status
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
     @GetMapping("/find-by-user-name")
     public ResponseEntity<?> findByUserName(@RequestParam String userName) {
