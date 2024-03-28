@@ -45,7 +45,7 @@ public class CustomAccessFilter extends OncePerRequestFilter {
         boolean isAllowedIP = this.allowedNetworkConfig.getIps().stream().anyMatch(ip::startsWith);
         boolean isAllowedMAC = this.allowedNetworkConfig.getMac().stream().anyMatch(macAllowed -> macAllowed.equalsIgnoreCase(currentMacAddress));
 
-        if (isAllowedIP && isAllowedTime && isAllowedDay && isAllowedMAC) {
+        if (isAllowedIP || isAllowedMAC && isAllowedTime && isAllowedDay) {
             filterChain.doFilter(request, response);
         } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);

@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/swagger-ui/**", "/v2/api-docs", "/swagger-resources/**", "/webjars/**").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/employee/search").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/employee/search").hasAnyAuthority("ADMIN", "MANAGER")
                 .antMatchers(HttpMethod.POST, "/employee/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/employee/change-password").hasAnyAuthority("ADMIN","USER")
                 .antMatchers(HttpMethod.PUT, "/employee/**").hasAuthority("ADMIN")
