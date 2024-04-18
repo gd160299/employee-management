@@ -30,8 +30,8 @@ public class EmployeeService {
     }
 
     @Transactional
-    public List<EmployeeDto> search(Long departmentId, String employeeName, String userName, int pageBegin, int pageEnd) {
-        return this.employeeRepository.search(departmentId, employeeName, userName, pageBegin, pageEnd);
+    public List<EmployeeDto> search(Long departmentId, String employeeName, String userName, int pageBegin, int pageSize) {
+        return this.employeeRepository.search(departmentId, employeeName, userName, pageBegin, pageSize);
     }
 
     public void create(EmployeeDto objInput) {

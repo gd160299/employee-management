@@ -45,8 +45,8 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> search(@RequestParam(required = false) Long departmentId, @RequestParam(required = false) String employeeName, @RequestParam(required = false) String userName, @RequestParam int pageBegin, @RequestParam int pageEnd) {
-        return ResponseEntity.ok(this.employeeService.search(departmentId, employeeName, userName, pageBegin, pageEnd));
+    public ResponseEntity<?> search(@RequestParam(required = false) Long departmentId, @RequestParam(required = false) String employeeName, @RequestParam(required = false) String userName, @RequestParam int pageBegin, @RequestParam int pageSize) {
+        return ResponseEntity.ok(this.employeeService.search(departmentId, employeeName, userName, pageBegin, pageSize));
     }
 
     @GetMapping("/get-lst-department")

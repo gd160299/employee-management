@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -26,7 +27,8 @@ public class OTPService {
         Totp totp = new Totp(secretKey);
         return totp.now();
     }
-
+    
+    @Async
     public void sendOtpViaEmail(String toEmail, String otp) {
         String subject = "Your OTP Code";
         String content = "Your OTP code is: " + otp + ". Please do not share this code with anyone. \nNote: The OTP will expire after 1 minute.";

@@ -43,13 +43,13 @@ public class EmployeeRepository {
 	}
 
 	public List<EmployeeDto> search(Long departmentId, String employeeName, String userName, int pageBegin,
-			int pageEnd) {
+			int pageSize) {
 		Map<String, Object> parameters = new LinkedHashMap<>();
 		parameters.put("p_department_id", departmentId);
 		parameters.put("p_employee_name", employeeName);
 		parameters.put("p_user_name", userName);
 		parameters.put("p_page_begin", pageBegin);
-		parameters.put("p_page_end", pageEnd);
+		parameters.put("p_page_size", pageSize);
 		return this.storedProcedureUtil.callStoredProcedureWithRefCursor("PKG_EMPLOYEE.employee_search", parameters,
 				EmployeeDto.class);
 	}
