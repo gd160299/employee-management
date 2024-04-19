@@ -36,7 +36,8 @@ public class EmployeeRestController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = authentication.getName();
         boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN"));
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN") ||
+                        grantedAuthority.getAuthority().equals("MANAGER"));
         // Nếu người dùng không phải admin và yêu cầu thông tin của người dùng khác
         if (!isAdmin && !currentUserName.equals(userName)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");

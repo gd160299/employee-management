@@ -2,6 +2,7 @@ package com.example.employee_management.Repo;
 
 import com.example.employee_management.Common.CallStoredProcedureCommon;
 import com.example.employee_management.Dto.DepartmentDto;
+import com.example.employee_management.Dto.EmployeeDeviceDto;
 import com.example.employee_management.Dto.EmployeeDto;
 import com.example.employee_management.Dto.EmployeeRoleDto;
 import com.example.employee_management.Model.LoginRequest;
@@ -98,5 +99,11 @@ public class EmployeeRepository {
 		Map<String, Object> parameters = new HashMap<>();
 		return this.storedProcedureUtil.callStoredProcedureWithRefCursor("PKG_EMPLOYEE.GET_LIST_DEPARTMENT", parameters,
 				DepartmentDto.class);
+	}
+
+	public List<EmployeeDeviceDto> getLstMac() {
+		Map<String, Object> parameters = new HashMap<>();
+		return this.storedProcedureUtil.callStoredProcedureWithRefCursor("PKG_EMPLOYEE.get_list_mac", parameters,
+				EmployeeDeviceDto.class);
 	}
 }
