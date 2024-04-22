@@ -65,6 +65,8 @@ public class EmployeeRepository {
 		parameters.put("p_position", objInput.getPosition());
 		parameters.put("p_email", objInput.getEmail());
 		parameters.put("p_pass_word", objInput.getPassWord());
+		parameters.put("p_mac", objInput.getMac());
+		parameters.put("p_role", objInput.getRoleId());
 		this.storedProcedureUtil.callStoredProcedure("PKG_EMPLOYEE.save_employee", parameters);
 	}
 
@@ -79,6 +81,8 @@ public class EmployeeRepository {
 		parameters.put("p_position", objInput.getPosition());
 		parameters.put("p_email", objInput.getEmail());
 		parameters.put("p_pass_word", objInput.getPassWord());
+		parameters.put("p_mac", objInput.getMac());
+		parameters.put("p_role", objInput.getRoleId());
 		this.storedProcedureUtil.callStoredProcedure("PKG_EMPLOYEE.update_employee", parameters);
 	}
 

@@ -12,6 +12,6 @@ public class EmployeeDeviceDto {
     private String mac;
 
     @DbColumnMapper("STATUS")
-    private int status;
+    private Long status;
 
 }

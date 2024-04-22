@@ -1,6 +1,7 @@
 package com.example.employee_management.Service;
 
 import com.example.employee_management.Dto.DepartmentDto;
+import com.example.employee_management.Dto.EmployeeDeviceDto;
 import com.example.employee_management.Dto.EmployeeDto;
 import com.example.employee_management.Model.LoginRequest;
 import com.example.employee_management.Repo.EmployeeRepository;
@@ -71,6 +72,10 @@ public class EmployeeService {
 
     public List<DepartmentDto> getLstDepartment() {
         return this.employeeRepository.getLstDepartment();
+    }
+
+    public List<EmployeeDeviceDto> getLstMacDevice() {
+        return this.employeeRepository.getLstMac();
     }
 
     private String encodePassWord(String passWord) {

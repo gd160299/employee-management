@@ -39,4 +39,8 @@ public class EmployeeDto {
 
 	@DbColumnMapper("TOTAL_ELEMENTS")
 	private Long totalElements;
+
+	private String mac;
+
+	private Long roleId;
 }
