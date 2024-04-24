@@ -14,4 +14,7 @@ public class EmployeeDeviceDto {
     @DbColumnMapper("STATUS")
     private Long status;
 
+    @DbColumnMapper("DEVICE_TYPE")
+    private Long deviceType;
+
 }

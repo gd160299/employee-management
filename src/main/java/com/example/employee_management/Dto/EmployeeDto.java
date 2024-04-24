@@ -43,4 +43,6 @@ public class EmployeeDto {
 	private String mac;
 
 	private Long roleId;
+
+	private String macPersonalDevice;
 }
