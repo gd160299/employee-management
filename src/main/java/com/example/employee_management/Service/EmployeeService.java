@@ -3,6 +3,7 @@ package com.example.employee_management.Service;
 import com.example.employee_management.Dto.DepartmentDto;
 import com.example.employee_management.Dto.EmployeeDeviceDto;
 import com.example.employee_management.Dto.EmployeeDto;
+import com.example.employee_management.Dto.RolesDto;
 import com.example.employee_management.Model.LoginRequest;
 import com.example.employee_management.Repo.EmployeeRepository;
 import com.example.employee_management.Util.BusinessException;
@@ -76,6 +77,10 @@ public class EmployeeService {
 
     public List<EmployeeDeviceDto> getLstMacDevice() {
         return this.employeeRepository.getLstMac();
+    }
+
+    public List<RolesDto> getLstRoles() {
+        return this.employeeRepository.getLstRoles();
     }
 
     private String encodePassWord(String passWord) {

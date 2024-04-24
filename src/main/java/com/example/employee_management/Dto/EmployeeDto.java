@@ -40,7 +40,12 @@ public class EmployeeDto {
 	@DbColumnMapper("TOTAL_ELEMENTS")
 	private Long totalElements;
 
+	@DbColumnMapper("MAC")
 	private String mac;
 
+	@DbColumnMapper("ROLE_ID")
 	private Long roleId;
+
+	@DbColumnMapper("MAC_PERSONAL_DEVICE")
+	private String macPersonalDevice;
 }

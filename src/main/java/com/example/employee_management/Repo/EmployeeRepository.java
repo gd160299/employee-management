@@ -5,6 +5,7 @@ import com.example.employee_management.Dto.DepartmentDto;
 import com.example.employee_management.Dto.EmployeeDeviceDto;
 import com.example.employee_management.Dto.EmployeeDto;
 import com.example.employee_management.Dto.EmployeeRoleDto;
+import com.example.employee_management.Dto.RolesDto;
 import com.example.employee_management.Model.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -66,6 +67,7 @@ public class EmployeeRepository {
 		parameters.put("p_email", objInput.getEmail());
 		parameters.put("p_pass_word", objInput.getPassWord());
 		parameters.put("p_mac", objInput.getMac());
+		parameters.put("p_mac_personal", objInput.getMacPersonalDevice());
 		parameters.put("p_role", objInput.getRoleId());
 		this.storedProcedureUtil.callStoredProcedure("PKG_EMPLOYEE.save_employee", parameters);
 	}
@@ -82,6 +84,7 @@ public class EmployeeRepository {
 		parameters.put("p_email", objInput.getEmail());
 		parameters.put("p_pass_word", objInput.getPassWord());
 		parameters.put("p_mac", objInput.getMac());
+		parameters.put("p_mac_personal", objInput.getMacPersonalDevice());
 		parameters.put("p_role", objInput.getRoleId());
 		this.storedProcedureUtil.callStoredProcedure("PKG_EMPLOYEE.update_employee", parameters);
 	}
@@ -109,5 +112,11 @@ public class EmployeeRepository {
 		Map<String, Object> parameters = new HashMap<>();
 		return this.storedProcedureUtil.callStoredProcedureWithRefCursor("PKG_EMPLOYEE.get_list_mac", parameters,
 				EmployeeDeviceDto.class);
+	}
+
+	public List<RolesDto> getLstRoles() {
+		Map<String, Object> parameters = new HashMap<>();
+		return this.storedProcedureUtil.callStoredProcedureWithRefCursor("PKG_EMPLOYEE.GET_LIST_ROLES", parameters,
+				RolesDto.class);
 	}
 }

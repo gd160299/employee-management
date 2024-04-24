@@ -60,6 +60,11 @@ public class EmployeeRestController {
         return ResponseEntity.ok(this.employeeService.getLstMacDevice());
     }
 
+    @GetMapping("/get-lst-roles")
+    public ResponseEntity<?> getLstRoles() {
+        return ResponseEntity.ok(this.employeeService.getLstRoles());
+    }
+
     @PostMapping("/create")
     public void create(@RequestBody EmployeeDto objInput) {
         this.employeeService.create(objInput);
