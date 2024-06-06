@@ -31,7 +31,7 @@ public class OTPService {
     @Async
     public void sendOtpViaEmail(String toEmail, String otp) {
         String subject = "Your OTP Code";
-        String content = "Your OTP code is: " + otp + ". Please do not share this code with anyone. \nNote: The OTP will expire after 1 minute.";
+        String content = "Your OTP code is: " + otp + ". Please do not share this code with anyone. \nNote: The OTP will expire after 3 minutes.";
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(this.emailUsername);
