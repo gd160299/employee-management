@@ -58,7 +58,7 @@ public class AuthService {
         if (authOpt.isPresent()) {
             AuthenticationDto auth = authOpt.get();
             // Kiểm tra xem OTP có quá 1 phút không
-            if (new Date().getTime() - auth.getCreatedTime().getTime() > 600000) {
+            if (new Date().getTime() - auth.getCreatedTime().getTime() > 180000) {
                 // OTP quá hạn
                 otpRepository.delete(auth.getAuthId());
                 return false; // OTP không hợp lệ do quá hạn

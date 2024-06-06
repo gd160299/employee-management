@@ -36,14 +36,18 @@ public class CallStoredProcedureCommon {
         // Đăng ký các tham số của stored procedure
         for (String paramName : parameters.keySet()) {
             Object paramValue = parameters.get(paramName);
-            Class<?> paramType = paramValue.getClass();
+            Class<?> paramType = (paramValue != null) ? paramValue.getClass() : String.class; // Sử dụng String.class làm kiểu mặc định cho null
             storedProcedure.registerStoredProcedureParameter(paramName, paramType, ParameterMode.IN);
         }
 
         // Đặt giá trị cho các tham số
         for (String paramName : parameters.keySet()) {
             Object paramValue = parameters.get(paramName);
-            storedProcedure.setParameter(paramName, paramValue);
+            if (paramValue != null) {
+                storedProcedure.setParameter(paramName, paramValue);
+            } else {
+                storedProcedure.setParameter(paramName, "");
+            }
         }
 
         storedProcedure.execute();
