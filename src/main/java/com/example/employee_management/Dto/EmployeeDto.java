@@ -46,6 +46,9 @@ public class EmployeeDto {
 	@DbColumnMapper("ROLE_ID")
 	private Long roleId;
 
+	@DbColumnMapper("ROLE_NAME")
+	private String roleName;
+
 	@DbColumnMapper("MAC_PERSONAL_DEVICE")
 	private String macPersonalDevice;
 }

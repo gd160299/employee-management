@@ -44,7 +44,7 @@ public class EmployeeService {
         objInput.setPassWord(this.encodePassWord(this.defaultPassword));
         this.employeeRepository.create(objInput);
     }
-
+    @Transactional
     public void update(EmployeeDto objInput) {
         this.employeeRepository.findByUserName(objInput.getUserName()).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXIST));
         objInput.setPassWord(this.encodePassWord(objInput.getPassWord()));
@@ -65,7 +65,7 @@ public class EmployeeService {
         objInput.setPassword(this.encodePassWord(this.defaultPassword));
         this.employeeRepository.changePassword(objInput);
     }
-
+    @Transactional
     public void delete(String userName) {
         EmployeeDto employee = this.findByUserName(userName);
         this.employeeRepository.delete(employee.getEmployeeId());
