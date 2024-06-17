@@ -103,6 +103,12 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<!-- Thêm thư viện cloudinary dùng để lưu trữ file/ảnh -->
+		<dependency>
+			<groupId>com.cloudinary</groupId>
+			<artifactId>cloudinary-http44</artifactId>
+			<version>1.29.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
