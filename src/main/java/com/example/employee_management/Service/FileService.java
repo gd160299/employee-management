@@ -30,7 +30,7 @@ public class FileService {
 
     @Transactional
     public Boolean uploadFile(MultipartFile file, Long employeeId) throws IOException {
-        Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.asMap("resource_type", "raw"));
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(), Map.of());
         FileMetadataDto metadata = new FileMetadataDto();
         metadata.setEmployeeId(employeeId);
         metadata.setFileName(file.getOriginalFilename());
