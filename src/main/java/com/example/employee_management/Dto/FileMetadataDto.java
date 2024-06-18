@@ -35,4 +35,10 @@ public class FileMetadataDto {
 
     @DbColumnMapper("Department_ID")
     private Long departmentId;
+
+    @DbColumnMapper("TOTAL_ELEMENTS")
+    private Long totalElements;
+
+    @DbColumnMapper("DEPARTMENT_NAME")
+    private String departmentName;
 }
