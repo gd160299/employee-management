@@ -30,4 +30,15 @@ public class FileController {
     public ResponseEntity<Resource> downloadFile(@RequestParam Long fileId) {
         return fileService.downloadFile(fileId);
     }
+
+    @DeleteMapping("/delete-file")
+    public ResponseEntity<?> deleteFile(@RequestParam Long fileId) {
+        this.fileService.delete(fileId);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam Long departmentId, @RequestParam int pageBegin, @RequestParam int pageSize) {
+        return new ResponseEntity<>(this.fileService.search(departmentId, pageBegin, pageSize), HttpStatus.OK);
+    }
 }

@@ -16,6 +16,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+import static com.example.employee_management.Util.EnumRoles.*;
+
 @Configuration
 @EnableAsync
 public class SecurityConfig {
@@ -61,14 +63,15 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/swagger-ui/**", "/v2/api-docs", "/swagger-resources/**", "/webjars/**").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
-//                .antMatchers("/files/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/files/upload").hasAnyAuthority("ADMIN", "MANAGER_DEV", "MANAGER_HR", "MANAGER_FINANCE")
-                .antMatchers(HttpMethod.GET, "/files/download").hasAnyAuthority("ADMIN", "MANAGER_DEV", "MANAGER_HR", "MANAGER_FINANCE", "USER")
-                .antMatchers(HttpMethod.GET, "/employee/search").hasAnyAuthority("ADMIN", "MANAGER")
-                .antMatchers(HttpMethod.POST, "/employee/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/employee/change-password").hasAnyAuthority("ADMIN", "MANAGER", "USER")
-                .antMatchers(HttpMethod.PUT, "/employee/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/employee/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/files/upload").hasAnyAuthority(ADMIN.getText(), MANAGER_DEV.getText(), MANAGER_HR.getText(), MANAGER_FINANCE.getText())
+                .antMatchers(HttpMethod.GET, "/files/download").hasAnyAuthority(ADMIN.getText(), MANAGER_DEV.getText(), MANAGER_HR.getText(), MANAGER_FINANCE.getText(), USER.getText())
+                .antMatchers(HttpMethod.GET, "/files/search").hasAnyAuthority(ADMIN.getText(), MANAGER_DEV.getText(), MANAGER_HR.getText(), MANAGER_FINANCE.getText())
+                .antMatchers(HttpMethod.DELETE, "/files/**").hasAnyAuthority(ADMIN.getText(), MANAGER_DEV.getText(), MANAGER_HR.getText(), MANAGER_FINANCE.getText())
+                .antMatchers(HttpMethod.GET, "/employee/search").hasAnyAuthority(ADMIN.getText(), MANAGER.getText())
+                .antMatchers(HttpMethod.POST, "/employee/**").hasAuthority(ADMIN.getText())
+                .antMatchers(HttpMethod.PUT, "/employee/change-password").hasAnyAuthority(ADMIN.getText(), MANAGER.getText(), USER.getText())
+                .antMatchers(HttpMethod.PUT, "/employee/**").hasAuthority(ADMIN.getText())
+                .antMatchers(HttpMethod.DELETE, "/employee/**").hasAuthority(ADMIN.getText())
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

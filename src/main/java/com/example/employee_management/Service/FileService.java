@@ -1,7 +1,6 @@
 package com.example.employee_management.Service;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.example.employee_management.Dto.EmployeeDto;
 import com.example.employee_management.Dto.FileMetadataDto;
 import com.example.employee_management.Repo.EmployeeRepository;
@@ -11,7 +10,6 @@ import com.example.employee_management.Util.ErrorCode;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -45,7 +43,7 @@ public class FileService {
     @Transactional
     public Boolean uploadFile(MultipartFile file, Long employeeId, Long departmentId) throws IOException {
         String fileName = file.getOriginalFilename();
-        String publicId = fileName != null ? fileName.substring(0, fileName.lastIndexOf('.')) : "";
+//        String publicId = fileName != null ? fileName.substring(0, fileName.lastIndexOf('.')) : "";
 
         Map<String, Object> uploadParams = new HashMap<>();
         uploadParams.put("public_id", fileName);
@@ -66,7 +64,7 @@ public class FileService {
 
     public ResponseEntity<Resource> downloadFile(Long fileId) {
         FileMetadataDto fileMetadata = this.fileMetadataRepository.findById(fileId)
-                .orElseThrow(() -> new RuntimeException("File not found"));
+                .orElseThrow(() -> new BusinessException(ErrorCode.FILE_NOT_FOUND));
 
         String publicId = fileMetadata.getPublicId();
         String fileName = fileMetadata.getFileName();
@@ -105,6 +103,26 @@ public class FileService {
         }
     }
 
+    public List<FileMetadataDto> search(Long departmentId, int pageBegin, int pageSize) {
+        return this.fileMetadataRepository.search(departmentId, pageBegin, pageSize);
+    }
+
+    public void delete(Long fileId) {
+        FileMetadataDto fileMetadata = this.fileMetadataRepository.findById(fileId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.FILE_NOT_FOUND));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = authentication.getName();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN"));
+
+        EmployeeDto emp = this.employeeService.findByUserName(currentUserName);
+
+        if (!isAdmin && !hasAccess(emp, fileMetadata)) {
+            throw new BusinessException(ErrorCode.FILE_CAN_NOT_ACCESS);
+        }
+        this.fileMetadataRepository.delete(fileId);
+    }
+
     private String getFileExtension(String fileName) {
         if (fileName == null || fileName.lastIndexOf(".") == -1) {
             return null;
@@ -114,7 +132,6 @@ public class FileService {
 
     private boolean hasAccess(EmployeeDto emp, FileMetadataDto fileMetadata) {
         String userRole = emp.getRoleName();
-
         if (userRole == null) {
             return false;
         }
