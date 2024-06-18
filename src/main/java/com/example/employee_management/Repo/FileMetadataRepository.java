@@ -23,6 +23,8 @@ public class FileMetadataRepository {
         parameters.put("p_file_type", dto.getFileType());
         parameters.put("p_file_size", dto.getFileSize());
         parameters.put("p_file_path", dto.getFilePath());
+        parameters.put("p_public_id", dto.getPublicId());
+        parameters.put("p_department_id", dto.getDepartmentId());
         storedProcedureUtil.callStoredProcedure("PKG_EMPLOYEE.SAVE_FILE", parameters);
     }
 

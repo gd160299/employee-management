@@ -29,4 +29,10 @@ public class FileMetadataDto {
 
     @DbColumnMapper("File_Path")
     private String filePath;
+
+    @DbColumnMapper("PUBLIC_ID")
+    private String publicId;
+
+    @DbColumnMapper("Department_ID")
+    private Long departmentId;
 }

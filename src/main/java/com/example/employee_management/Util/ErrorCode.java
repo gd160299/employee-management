@@ -5,6 +5,7 @@ public enum ErrorCode {
     USER_EXIST("USER_EXIST", "Tài khoản [%s] đã tồn tại"),
     USER_NOT_EXIST("USER_NOT_EXIST", "Tài khoản không tồn tại"),
     OLD_PASSWORD_IS_NOT_CORRECT("OLD_PASSWORD_IS_NOT_CORRECT", "Mật khẩu cũ không đúng"),
+    FILE_CAN_NOT_ACCESS("FILE_CAN_NOT_ACCESS", "Người dùng không có quyền tải file"),
     //
     ;
 
