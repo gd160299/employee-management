@@ -132,13 +132,10 @@ public class FileService {
 
     private boolean hasAccess(EmployeeDto emp, FileMetadataDto fileMetadata) {
         String userRole = emp.getRoleName();
-        if (userRole == null) {
-            return false;
-        }
         return switch (userRole) {
-            case "MANAGER_DEV" -> fileMetadata.getDepartmentId() == 4;
-            case "MANAGER_HR" -> fileMetadata.getDepartmentId() == 5;
-            case "MANAGER_FINANCE" -> fileMetadata.getDepartmentId() == 6;
+            case "MANAGER_DEV" -> fileMetadata.getDepartmentId() == 1;
+            case "MANAGER_HR" -> fileMetadata.getDepartmentId() == 2;
+            case "MANAGER_FINANCE" -> fileMetadata.getDepartmentId() == 3;
             case "USER" -> emp.getDepartmentId().equals(fileMetadata.getDepartmentId());
             default -> false;
         };

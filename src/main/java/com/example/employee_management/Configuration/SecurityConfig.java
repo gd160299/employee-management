@@ -36,7 +36,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5173", "http://localhost:5173/", "http://localhost:8686")); // Add your frontend origin here
+        configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5173", "http://localhost:5173/", "http://localhost:8687", "http://localhost:8686")); // Add your frontend origin here
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
@@ -65,7 +65,7 @@ public class SecurityConfig {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/files/upload").hasAnyAuthority(ADMIN.getText(), MANAGER_DEV.getText(), MANAGER_HR.getText(), MANAGER_FINANCE.getText())
                 .antMatchers(HttpMethod.GET, "/files/download").hasAnyAuthority(ADMIN.getText(), MANAGER_DEV.getText(), MANAGER_HR.getText(), MANAGER_FINANCE.getText(), USER.getText())
-                .antMatchers(HttpMethod.GET, "/files/search").hasAnyAuthority(ADMIN.getText(), MANAGER_DEV.getText(), MANAGER_HR.getText(), MANAGER_FINANCE.getText())
+                .antMatchers(HttpMethod.GET, "/files/search").hasAnyAuthority(ADMIN.getText(), MANAGER_DEV.getText(), MANAGER_HR.getText(), MANAGER_FINANCE.getText(), USER.getText())
                 .antMatchers(HttpMethod.DELETE, "/files/**").hasAnyAuthority(ADMIN.getText(), MANAGER_DEV.getText(), MANAGER_HR.getText(), MANAGER_FINANCE.getText())
                 .antMatchers(HttpMethod.GET, "/employee/search").hasAnyAuthority(ADMIN.getText(), MANAGER.getText())
                 .antMatchers(HttpMethod.POST, "/employee/**").hasAuthority(ADMIN.getText())
