@@ -67,7 +67,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/files/download").hasAnyAuthority(ADMIN.getText(), MANAGER_DEV.getText(), MANAGER_HR.getText(), MANAGER_FINANCE.getText(), USER.getText())
                 .antMatchers(HttpMethod.GET, "/files/search").hasAnyAuthority(ADMIN.getText(), MANAGER_DEV.getText(), MANAGER_HR.getText(), MANAGER_FINANCE.getText(), USER.getText())
                 .antMatchers(HttpMethod.DELETE, "/files/**").hasAnyAuthority(ADMIN.getText(), MANAGER_DEV.getText(), MANAGER_HR.getText(), MANAGER_FINANCE.getText())
-                .antMatchers(HttpMethod.GET, "/employee/search").hasAnyAuthority(ADMIN.getText(), MANAGER.getText())
+                .antMatchers(HttpMethod.GET, "/employee/search").hasAnyAuthority(ADMIN.getText(), MANAGER.getText(), MANAGER_DEV.getText(), MANAGER_HR.getText(), MANAGER_FINANCE.getText())
                 .antMatchers(HttpMethod.POST, "/employee/**").hasAuthority(ADMIN.getText())
                 .antMatchers(HttpMethod.PUT, "/employee/change-password").hasAnyAuthority(ADMIN.getText(), MANAGER.getText(), USER.getText())
                 .antMatchers(HttpMethod.PUT, "/employee/**").hasAuthority(ADMIN.getText())
